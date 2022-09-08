@@ -83,11 +83,26 @@ public class Kevin_BasicOpMode_Linear extends LinearOpMode {
         while (opModeIsActive()) {
             double leftPower;
             double rightPower;
+            boolean backwards = false;
+
+            if(gamepad1.y) {
+                if(backwards) {
+                    backwards = false;
+                } else {
+                    backwards = true;
+                }
+            }
 
             double drive = -gamepad1.left_stick_y;
             double turn  =  gamepad1.right_stick_x;
+
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+
+            if(backwards) {
+                leftPower = -leftPower;
+                rightPower = -rightPower;
+            }
 
             // Send calculated power to wheels
             blDrive.setPower(leftPower);
